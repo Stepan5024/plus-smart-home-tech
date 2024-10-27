@@ -2,6 +2,7 @@ package ru.yandex.practicum.model.hubs;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -19,7 +20,9 @@ import java.time.Instant;
 })
 @Getter
 public abstract class HubEvent {
+    @NotBlank
     private String hubId;
+
     private Instant timestamp;
 
     public abstract String getType();

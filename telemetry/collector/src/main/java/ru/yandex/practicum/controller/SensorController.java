@@ -1,6 +1,7 @@
 package ru.yandex.practicum.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,14 +13,10 @@ import ru.yandex.practicum.service.SensorService;
 
 @RestController
 @RequestMapping("/sensors")
+@AllArgsConstructor
 public class SensorController {
 
     private final SensorService sensorService;
-
-    @Autowired
-    public SensorController(SensorService sensorService) {
-        this.sensorService = sensorService;
-    }
 
     @PostMapping
     public void collectSensorEvent(@Valid @RequestBody SensorEvent event) {
