@@ -3,7 +3,9 @@ package ru.yandex.practicum.model.sensors;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
 
@@ -20,12 +22,13 @@ import java.time.Instant;
         @JsonSubTypes.Type(value = SwitchSensorEvent.class, name = "SWITCH_SENSOR_EVENT")
 })
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class SensorEvent {
     @NotBlank
-    private String id;
+    String id;
     @NotBlank
-    private String hubId;
-    private Instant timestamp;
+    String hubId;
+    Instant timestamp;
 
     public abstract String getType();
 }

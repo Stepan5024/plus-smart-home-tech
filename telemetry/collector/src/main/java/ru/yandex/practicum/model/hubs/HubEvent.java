@@ -3,7 +3,9 @@ package ru.yandex.practicum.model.hubs;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
 
@@ -19,11 +21,12 @@ import java.time.Instant;
         @JsonSubTypes.Type(value = ScenarioRemovedEvent.class, name = "SCENARIO_REMOVED_EVENT")
 })
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class HubEvent {
     @NotBlank
-    private String hubId;
+    String hubId;
 
-    private Instant timestamp;
+    Instant timestamp;
 
     public abstract String getType();
 }

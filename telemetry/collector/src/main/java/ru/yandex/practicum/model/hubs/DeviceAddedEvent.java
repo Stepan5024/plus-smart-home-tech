@@ -1,11 +1,14 @@
 package ru.yandex.practicum.model.hubs;
 
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import ru.yandex.practicum.kafka.telemetry.event.DeviceTypeAvro;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DeviceAddedEvent extends HubEvent {
-    private String id;
-    private DeviceTypeAvro type;
+    String id;
+    DeviceTypeAvro type;
 
     @Override
     public String getType() {
