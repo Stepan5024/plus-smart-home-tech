@@ -1,14 +1,25 @@
 package ru.yandex.practicum.model.hubs;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.hubs.enums.HubEventType;
 
+@Getter
+@Setter
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ScenarioRemovedEvent extends HubEvent {
+    @NotBlank
+    @Size(min = 3)
     String name;
 
     @Override
-    public String getType() {
-        return "SCENARIO_REMOVED_EVENT";
+    public HubEventType getType() {
+        return HubEventType.SCENARIO_REMOVED;
     }
 }

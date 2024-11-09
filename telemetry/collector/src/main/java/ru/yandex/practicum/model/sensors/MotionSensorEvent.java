@@ -1,16 +1,28 @@
 package ru.yandex.practicum.model.sensors;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.sensors.enums.SensorEventType;
 
+
+@Getter
+@Setter
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MotionSensorEvent extends SensorEvent {
-    int linkQuality;
-    boolean motion;
-    int voltage;
+    @NotNull
+    Integer linkQuality;
+    @NotNull
+    Boolean motion;
+    @NotNull
+    Integer voltage;
 
     @Override
-    public String getType() {
-        return "MOTION_SENSOR_EVENT";
+    public SensorEventType getType() {
+        return SensorEventType.MOTION_SENSOR_EVENT;
     }
 }
