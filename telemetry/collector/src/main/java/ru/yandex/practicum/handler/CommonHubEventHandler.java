@@ -21,6 +21,7 @@ public abstract class CommonHubEventHandler<T extends SpecificRecordBase> {
 
     public void handle(HubEventProto event) {
         T avroObject = mapToAvroObject(event);
+        
         HubEventAvro hubEventAvro = HubEventAvro.newBuilder()
                 .setHubId(event.getHubId())
                 .setTimestamp(Instant.ofEpochSecond(event.getTimestamp().getSeconds(), event.getTimestamp().getNanos()))
