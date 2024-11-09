@@ -1,15 +1,26 @@
 package ru.yandex.practicum.model.sensors;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.sensors.enums.SensorEventType;
 
+
+@Getter
+@Setter
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TemperatureSensorEvent extends SensorEvent {
-    int temperatureC;
-    int temperatureF;
+    @NotNull
+    Integer temperatureC;
+    @NotNull
+    Integer temperatureF;
 
     @Override
-    public String getType() {
-        return "TEMPERATURE_SENSOR_EVENT";
+    public SensorEventType getType() {
+        return SensorEventType.TEMPERATURE_SENSOR_EVENT;
     }
 }

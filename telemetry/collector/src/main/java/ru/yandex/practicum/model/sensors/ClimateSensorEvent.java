@@ -1,16 +1,28 @@
 package ru.yandex.practicum.model.sensors;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.sensors.enums.SensorEventType;
 
+
+@Getter
+@Setter
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClimateSensorEvent extends SensorEvent {
-    int temperatureC;
-    int humidity;
-    int co2Level;
+    @NotNull
+    Integer temperatureC;
+    @NotNull
+    Integer humidity;
+    @NotNull
+    Integer co2Level;
 
     @Override
-    public String getType() {
-        return "CLIMATE_SENSOR_EVENT";
+    public SensorEventType getType() {
+        return SensorEventType.CLIMATE_SENSOR_EVENT;
     }
 }

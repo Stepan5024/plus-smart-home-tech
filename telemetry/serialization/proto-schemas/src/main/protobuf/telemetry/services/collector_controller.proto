@@ -1,24 +1,13 @@
 syntax = "proto3";
 
-package telemetry.message.event;
-
-option java_multiple_files = true;
-option java_package = "ru.yandex.practicum.grpc.telemetry.event";
-
+import "google/protobuf/empty.proto";
 import "telemetry/messages/hub_event.proto";
 import "telemetry/messages/sensor_event.proto";
 
-// Сервис CollectorController для обработки событий
+option java_package = "ru.yandex.practicum.grpc.telemetry.collector";
+
 service CollectorController {
-  // Метод для отправки события хаба
-  rpc SendHubEvent (HubEvent) returns (EventResponse);
+  rpc CollectSensorEvent(telemetry.message.event.SensorEventProto) returns (google.protobuf.Empty);
 
-  // Метод для отправки события сенсора
-  rpc SendSensorEvent (SensorEvent) returns (EventResponse);
-}
-
-// Ответ на событие
-message EventResponse {
-  string message = 1;
-  bool success = 2;
+  rpc CollectHubEvent(telemetry.message.event.HubEventProto) returns (google.protobuf.Empty);
 }

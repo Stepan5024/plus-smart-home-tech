@@ -1,15 +1,23 @@
 package ru.yandex.practicum.model.sensors;
 
 import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.sensors.enums.SensorEventType;
 
+
+@Getter
+@Setter
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LightSensorEvent extends SensorEvent {
-    int linkQuality;
-    int luminosity;
+    Integer linkQuality;
+    Integer luminosity;
 
     @Override
-    public String getType() {
-        return "LIGHT_SENSOR_EVENT";
+    public SensorEventType getType() {
+        return SensorEventType.LIGHT_SENSOR_EVENT;
     }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.model.hubs.enums.HubEventType;
 
 import java.time.Instant;
 
@@ -28,5 +29,5 @@ public abstract class HubEvent {
 
     Instant timestamp;
 
-    public abstract String getType();
+    public abstract HubEventType getType();
 }
