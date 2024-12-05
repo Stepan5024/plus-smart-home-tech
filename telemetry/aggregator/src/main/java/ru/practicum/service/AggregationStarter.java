@@ -39,8 +39,8 @@ public class AggregationStarter {
 
                 for (ConsumerRecord<String, SensorEventAvro> record : records) {
 
-                    log.info("топик = {}, раздел = {}, смещение = {}, данные = {}\n",
-                            record.key(), record.value(), record.partition(), record.offset());
+                    log.info("topic = {}, partition = {}, offset = {}, record = {}\n",
+                            record.topic(), record.partition(), record.offset(), record.value());
 
                     Optional<SnapshotAvro> snapshotAvro = aggregatorSnapshotRepository.updateState(record.value());
                     if (snapshotAvro.isPresent()) {
@@ -49,11 +49,11 @@ public class AggregationStarter {
                                         snapshotAvro.get().getHubId(), snapshotAvro.get());
                         producer.send(producerRecord, (metadata, exception) -> {
                             if (exception != null) {
-                                log.error("Ошибка при отправке сообщения в Kafka, topic: {}, ",
+                                log.error("Error sending to Kafka, topic: {}, ",
                                         appConfig.getOutTopic(), exception);
                                 throw new RuntimeException("Exception occurs by Kafka producer", exception);
                             }
-                            log.info("Сообщение успешно отправлено в Kafka, topic: {}, partition: {}, offset: {}",
+                            log.info("Message sent to Kafka, topic: {}, partition: {}, offset: {}",
                                     metadata.topic(), metadata.partition(), metadata.offset());
                         });
                     }
@@ -63,11 +63,11 @@ public class AggregationStarter {
         } catch (WakeupException ignored) {
 
         } catch (Exception e) {
-            log.error("Ошибка во время обработки событий от датчиков", e);
+            log.error("Error sending to Kafka", e);
         } finally {
-            log.info("Закрываем консьюмер");
+            log.info("Consumer stopped");
             consumer.close();
-            log.info("Закрываем продюсер");
+            log.info("Producer stopped");
             producer.close();
         }
     }

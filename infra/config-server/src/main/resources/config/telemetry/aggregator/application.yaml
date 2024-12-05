@@ -1,0 +1,11 @@
+aggregator:
+  kafka:
+    in:
+      topic: telemetry.sensors.v1
+    out:
+      topic: telemetry.snapshots.v1
+    server: localhost:9092
+    value:
+      deserializer: ru.practicum.utils.SensorEventDeserializer
+    group:
+      id: AggregatorSensorsGroup
