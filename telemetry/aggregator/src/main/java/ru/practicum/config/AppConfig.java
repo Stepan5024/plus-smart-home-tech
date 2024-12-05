@@ -11,7 +11,6 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.practicum.utils.CommonAvroSerializer;
@@ -21,7 +20,6 @@ import java.util.Properties;
 
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ConfigurationProperties("aggregator.kafka")
 public class AppConfig {
     @Getter
     @Value("${aggregator.kafka.in.topic}")
