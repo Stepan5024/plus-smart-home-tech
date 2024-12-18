@@ -16,10 +16,7 @@ import ru.yandex.practicum.repository.BookingRepository;
 import ru.yandex.practicum.repository.WarehouseRepository;
 import ru.yandex.practicum.shoppingCart.dto.BookedProductsDto;
 import ru.yandex.practicum.shoppingCart.dto.ShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.AddressDto;
-import ru.yandex.practicum.warehouse.dto.AssemblyProductForOrderFromShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.NewProductInWarehouseRequestDto;
+import ru.yandex.practicum.warehouse.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -127,5 +124,12 @@ public class WarehouseServiceImpl implements WarehouseService {
                 () -> new NoSpecifiedProductInWarehouseException("Product " + requestDto.getProductId() + " not found")
         );
         warehouse.setQuantity(warehouse.getQuantity() + requestDto.getQuantity());
+    }
+
+    @Override
+    public void shippedToDelivery(ShippedToDeliveryRequest request) {
+        Booking booking = bookingRepository.findByOrderId(request.getOrderId()).orElseThrow(
+                () -> new NoSpecifiedProductInWarehouseException("Order " + request.getOrderId() + " not found"));
+        booking.setDeliveryId(request.getDeliveryId());
     }
 }

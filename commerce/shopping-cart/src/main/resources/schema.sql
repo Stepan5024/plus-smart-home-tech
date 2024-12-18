@@ -1,5 +1,3 @@
-drop table if exists shopping_cart, shopping_cart_items;
-
 create table if not exists shopping_cart
 (
     shopping_cart_id uuid default gen_random_uuid() primary key,
