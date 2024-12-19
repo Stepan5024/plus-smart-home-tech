@@ -132,7 +132,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void shippedToDelivery(ShippedToDeliveryRequest request) {
         Booking booking = bookingRepository.findByOrderId(request.getOrderId()).orElseThrow(
-                () -> new NoSpecifiedProductInWarehouseException(String.format("Order %s not found", request.getOrderId()));
+                () -> new NoSpecifiedProductInWarehouseException(String.format("Order %s not found", request.getOrderId()))
+        );
         booking.setDeliveryId(request.getDeliveryId());
     }
 }
