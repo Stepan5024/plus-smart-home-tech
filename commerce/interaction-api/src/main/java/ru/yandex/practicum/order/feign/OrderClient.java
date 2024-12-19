@@ -9,21 +9,28 @@ import java.util.UUID;
 
 @FeignClient(name = "order", path = "/api/v1/order")
 public interface OrderClient {
-    @PostMapping(value = "/payment")
+    String PATH_PAYMENT_FAILED = "/payment/failed";
+    String PATH_PAYMENT = "/payment";
+    String PATH_COMPLETED = "/completed";
+    String PATH_ASSEMBLY = "/assembly";
+    String PATH_ASSEMBLY_FAILED = "/assembly/failed";
+    String PATH_DELIVERY_FAILED = "/assembly/failed";
+
+    @PostMapping(value = PATH_PAYMENT)
     OrderDto payOrder(@RequestBody UUID orderId);
 
-    @PostMapping("/payment/failed")
+    @PostMapping(PATH_PAYMENT_FAILED)
     OrderDto payOrderFailed(@RequestBody UUID orderId);
 
-    @PostMapping("/completed")
+    @PostMapping(PATH_COMPLETED)
     OrderDto completedOrder(@RequestBody UUID orderId);
 
-    @PostMapping("/assembly")
+    @PostMapping(PATH_ASSEMBLY)
     OrderDto assemblyOrder(@RequestBody UUID orderId);
 
-    @PostMapping("/assembly/failed")
+    @PostMapping(PATH_ASSEMBLY_FAILED)
     OrderDto assemblyOrderFailed(@RequestBody UUID orderId);
 
-    @PostMapping("/delivery/failed")
+    @PostMapping(PATH_DELIVERY_FAILED)
     OrderDto deliveryOrderFailed(@RequestBody UUID orderId);
 }

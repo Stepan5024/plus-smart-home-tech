@@ -36,7 +36,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void successfulDelivery(UUID deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
-                () -> new NoDeliveryFoundException("Delivery with id " + deliveryId + " not found"));
+                () -> new NoDeliveryFoundException(String.format("Delivery with id %s not found", deliveryId))
+        );
         delivery.setDeliveryState(DeliveryState.DELIVERED);
         orderClient.completedOrder(delivery.getOrderId());
     }
@@ -44,7 +45,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void pickedDelivery(UUID deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
-                () -> new NoDeliveryFoundException("Delivery with id " + deliveryId + " not found"));
+                () -> new NoDeliveryFoundException(String.format("Delivery with id %s not found", deliveryId))
+        );
         delivery.setDeliveryState(DeliveryState.IN_PROGRESS);
         orderClient.assemblyOrder(delivery.getOrderId());
         ShippedToDeliveryRequest deliveryRequest = new ShippedToDeliveryRequest(
@@ -55,7 +57,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void failedDelivery(UUID deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
-                () -> new NoDeliveryFoundException("Delivery with id " + deliveryId + " not found"));
+                () -> new NoDeliveryFoundException(String.format("Delivery with id %s not found", deliveryId))
+        );
         delivery.setDeliveryState(DeliveryState.FAILED);
         orderClient.deliveryOrderFailed(delivery.getOrderId());
     }
@@ -66,14 +69,14 @@ public class DeliveryServiceImpl implements DeliveryService {
         final double baseRate = 5.0;
 
         Delivery delivery = deliveryRepository.findByOrderId(orderDto.getOrderId()).orElseThrow(
-                () -> new NoDeliveryFoundException("Delivery with order id " + orderDto.getOrderId() + " not found")
+                () -> new NoDeliveryFoundException(String.format("Delivery with order id %s not found", orderDto.getOrderId()))
         );
 
         AddressDto warehouseAddress = warehouseClient.getAddress();
         double addressCost = switch (warehouseAddress.getCity()) {
             case "ADDRESS_1" -> baseRate * 1;
             case "ADDRESS_2" -> baseRate * 2;
-            default -> throw new IllegalStateException("Unexpected value: " + warehouseAddress.getCity());
+            default -> throw new IllegalStateException(String.format("Unexpected value: %s", warehouseAddress.getCity()));
         };
         double deliveryCost = baseRate + addressCost;
         if (orderDto.getFragile()) deliveryCost += deliveryCost * 0.2;

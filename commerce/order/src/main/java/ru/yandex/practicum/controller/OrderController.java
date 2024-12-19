@@ -20,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final String PATH_PAYMENT_FAILED = "/payment/failed";
 
     @GetMapping
     public List<OrderDto> getOrders(@RequestParam String username) {
@@ -46,7 +47,7 @@ public class OrderController {
         return orderService.payOrder(orderId);
     }
 
-    @PostMapping("/payment/failed")
+    @PostMapping(PATH_PAYMENT_FAILED)
     public OrderDto payOrderFailed(@RequestBody UUID orderId) {
         log.info("Pay order failed {}", orderId);
         return orderService.payOrderFailed(orderId);

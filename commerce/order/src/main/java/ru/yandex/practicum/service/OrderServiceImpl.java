@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto returnOrder(ProductReturnRequestDto returnRequest) {
         Order order = orderRepository.findById(returnRequest.getOrderId())
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + returnRequest.getOrderId()));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", returnRequest.getOrderId())));
         warehouseClient.returnProductToWarehouse(returnRequest.getProducts());
         order.setState(OrderState.PRODUCT_RETURNED);
         return orderMapper.toOrderDto(order);
@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto payOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.PAID);
         return orderMapper.toOrderDto(order);
     }
@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto payOrderFailed(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.PAYMENT_FAILED);
         return orderMapper.toOrderDto(order);
     }
@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto deliveryOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.DELIVERED);
         return orderMapper.toOrderDto(order);
     }
@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto deliveryOrderFailed(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.DELIVERY_FAILED);
         return orderMapper.toOrderDto(order);
     }
@@ -120,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto completedOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.COMPLETED);
         return orderMapper.toOrderDto(order);
     }
@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto calculateTotal(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setTotalPrice(paymentClient.totalCost(orderMapper.toOrderDto(order)));
         return orderMapper.toOrderDto(order);
     }
@@ -136,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto calculateDelivery(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setDeliveryPrice(deliveryClient.costDelivery(orderMapper.toOrderDto(order)));
         return orderMapper.toOrderDto(order);
     }
@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto assemblyOrder(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.ASSEMBLED);
         return orderMapper.toOrderDto(order);
     }
@@ -152,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto assemblyOrderFailed(UUID orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoOrderFoundException("Order not found with id " + orderId));
+                .orElseThrow(() -> new NoOrderFoundException(String.format("Order not found with id %s", orderId)));
         order.setState(OrderState.ASSEMBLY_FAILED);
         return orderMapper.toOrderDto(order);
     }
