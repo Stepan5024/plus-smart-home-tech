@@ -28,7 +28,7 @@ public class CommonAvroSerializer implements Serializer<SpecificRecordBase> {
             }
             return result;
         } catch (IOException e) {
-            throw new SerializationException("Could not serialize record for topic [" + topic + "]", e);
+            throw new SerializationException(String.format("Could not serialize record for topic [%s]", topic), e);
         }
     }
 }

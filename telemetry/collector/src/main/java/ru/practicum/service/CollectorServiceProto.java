@@ -30,8 +30,7 @@ public class CollectorServiceProto extends CollectorControllerGrpc.CollectorCont
                 responseObserver.onNext(Empty.getDefaultInstance());
                 responseObserver.onCompleted();
             } else {
-                throw new NotFoundException("Handler for sensor event type " +
-                                            request.getPayloadCase().name() + " not found");
+                throw new NotFoundException(String.format("Handler for sensor event type %s not found", request.getPayloadCase().name()));
             }
         } catch (Exception e) {
             responseObserver.onError(
@@ -50,8 +49,7 @@ public class CollectorServiceProto extends CollectorControllerGrpc.CollectorCont
                 responseObserver.onNext(Empty.getDefaultInstance());
                 responseObserver.onCompleted();
             } else {
-                throw new NotFoundException("Handler for hub event type " +
-                                            request.getPayloadCase().name() + " not found");
+                throw new NotFoundException(String.format("Handler for hub event type %s not found", request.getPayloadCase().name()));
             }
         } catch (Exception e) {
             responseObserver.onError(

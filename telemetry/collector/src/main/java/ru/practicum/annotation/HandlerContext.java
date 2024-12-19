@@ -37,7 +37,7 @@ public class HandlerContext {
     private static HubEventProto.PayloadCase getValueHub(CommonHubEventHandler<?> handler) {
         HandlerHubEvent handlerAnnotation = handler.getClass().getAnnotation(HandlerHubEvent.class);
         if (handlerAnnotation == null) {
-            throw new IllegalArgumentException("No annotation found for " + handler.getClass().getName());
+            throw new IllegalArgumentException(String.format("No annotation found for %s", handler.getClass().getName()));
         }
         return handlerAnnotation.value();
     }
@@ -45,7 +45,7 @@ public class HandlerContext {
     private static SensorEventProto.PayloadCase getValueSensor(CommonSensorEventHandler<?> handler) {
         HandlerSensorEvent handlerAnnotation = handler.getClass().getAnnotation(HandlerSensorEvent.class);
         if (handlerAnnotation == null) {
-            throw new IllegalArgumentException("No annotation found for " + handler.getClass().getName());
+            throw new IllegalArgumentException(String.format("No annotation found for %s", handler.getClass().getName()));
         }
         return handlerAnnotation.value();
     }

@@ -56,7 +56,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         checkUsername(username);
         ShoppingCart cart = shoppingCartRepository.findByUsername(username);
         if (cart == null) {
-            throw new NoProductsInShoppingCartException("Username " + username + " has not shopping cart");
+            throw new NoProductsInShoppingCartException(String.format("Username %s has no shopping cart", username));
         }
         cart.setProducts(request);
         return shoppingCartMapper.toShoppingCartDto(cart);
@@ -70,7 +70,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .filter(entry -> entry.getKey().equals(requestDto.getProductId()))
                 .peek(entry -> entry.setValue(requestDto.getNewQuantity()))
                 .findAny()
-                .orElseThrow(() -> new NoProductsInShoppingCartException("Username " + username + " has not shopping cart"));
+                .orElseThrow(() -> new NoProductsInShoppingCartException(String.format("Username %s has no shopping cart", username)));
         shoppingCartRepository.save(cart);
         return shoppingCartMapper.toShoppingCartDto(cart);
     }

@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto updateProduct(ProductDto productDto) {
         Product oldProduct = productRepository.findByProductId(productDto.getProductId())
                 .orElseThrow(() -> new ProductNotFoundException(
-                        "Product with id " + productDto.getProductId() + "not found")
+                        String.format("Product with id %s not found", productDto.getProductId()))
                 );
         Product newProduct = productMapper.productDtoToProduct(productDto);
         newProduct.setProductId(oldProduct.getProductId());
@@ -62,7 +62,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(UUID productId) {
         Product product = productRepository.findByProductId(productId).orElseThrow(
-                () -> new ProductNotFoundException("Product with id " + productId + "not found"));
+                () -> new ProductNotFoundException(String.format("Product with id %s not found", productId))
+        );
         product.setProductState(ProductState.DEACTIVATE);
         return true;
     }
@@ -71,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     public boolean updateQuantityState(SetProductQuantityStateRequestDto requestDto) {
         Product product = productRepository.findByProductId(requestDto.getProductId())
                 .orElseThrow(
-                        () -> new ProductNotFoundException("Product with id " + requestDto.getProductId() + "not found")
+                        () -> new ProductNotFoundException(String.format("Product with id %s not found", requestDto.getProductId()))
                 );
         product.setQuantityState(requestDto.getQuantityState());
         return true;
@@ -80,7 +81,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProductById(UUID productId) {
         Product product = productRepository.findByProductId(productId).orElseThrow(
-                () -> new ProductNotFoundException("Product with id " + productId + "not found"));
+                () -> new ProductNotFoundException(String.format("Product with id %s not found", productId))
+        );
         return productMapper.productToProductDto(product);
     }
 }

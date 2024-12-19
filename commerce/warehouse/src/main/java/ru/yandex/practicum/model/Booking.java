@@ -28,4 +28,5 @@ public class Booking {
     @Column(name = "quantity")
     Map<UUID, Long> products;
     UUID orderId;
+    UUID deliveryId;
 }

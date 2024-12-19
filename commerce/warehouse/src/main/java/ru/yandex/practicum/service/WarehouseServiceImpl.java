@@ -16,10 +16,7 @@ import ru.yandex.practicum.repository.BookingRepository;
 import ru.yandex.practicum.repository.WarehouseRepository;
 import ru.yandex.practicum.shoppingCart.dto.BookedProductsDto;
 import ru.yandex.practicum.shoppingCart.dto.ShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.AddressDto;
-import ru.yandex.practicum.warehouse.dto.AssemblyProductForOrderFromShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.NewProductInWarehouseRequestDto;
+import ru.yandex.practicum.warehouse.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -58,7 +55,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         productsInWarehouse.forEach(warehouse -> {
             if (warehouse.getQuantity() < products.get(warehouse.getProductId())) {
                 throw new ProductInShoppingCartLowQuantityInWarehouse(
-                        "Product " + warehouse.getProductId() + "is sold out");
+                        String.format("Product %s is sold out", warehouse.getProductId())
+                );
             }
         });
 
@@ -91,14 +89,16 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public BookedProductsDto assemblyProductForOrder(AssemblyProductForOrderFromShoppingCartDto assemblyProductDto) {
         Booking booking = bookingRepository.findById(assemblyProductDto.getShoppingCartId()).orElseThrow(
-                () -> new RuntimeException("Shopping cart" + assemblyProductDto.getShoppingCartId() + " not found"));
+                () -> new RuntimeException(String.format("Shopping cart %s not found", assemblyProductDto.getShoppingCartId()))
+        );
+
 
         Map<UUID, Long> productsInBooking = booking.getProducts();
         List<Warehouse> productsInWarehouse = warehouseRepository.findAllById(productsInBooking.keySet());
         productsInWarehouse.forEach(warehouse -> {
             if (warehouse.getQuantity() < productsInBooking.get(warehouse.getProductId())) {
                 throw new ProductInShoppingCartLowQuantityInWarehouse(
-                        "Product " + warehouse.getProductId() + "is sold out");
+                        String.format("Product %s is sold out", warehouse.getProductId()));
             }
         });
 
@@ -124,8 +124,16 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void addProductToWarehouse(AddProductToWarehouseRequest requestDto) {
         Warehouse warehouse = warehouseRepository.findById(requestDto.getProductId()).orElseThrow(
-                () -> new NoSpecifiedProductInWarehouseException("Product " + requestDto.getProductId() + " not found")
+                () -> new NoSpecifiedProductInWarehouseException(String.format("Product %s not found", requestDto.getProductId()))
         );
         warehouse.setQuantity(warehouse.getQuantity() + requestDto.getQuantity());
+    }
+
+    @Override
+    public void shippedToDelivery(ShippedToDeliveryRequest request) {
+        Booking booking = bookingRepository.findByOrderId(request.getOrderId()).orElseThrow(
+                () -> new NoSpecifiedProductInWarehouseException(String.format("Order %s not found", request.getOrderId()))
+        );
+        booking.setDeliveryId(request.getDeliveryId());
     }
 }
