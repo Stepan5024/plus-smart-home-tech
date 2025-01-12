@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.service.WarehouseService;
 import ru.yandex.practicum.shoppingCart.dto.BookedProductsDto;
 import ru.yandex.practicum.shoppingCart.dto.ShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.AddressDto;
-import ru.yandex.practicum.warehouse.dto.AssemblyProductForOrderFromShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.NewProductInWarehouseRequestDto;
+import ru.yandex.practicum.warehouse.dto.*;
 
 import java.util.Map;
 import java.util.UUID;
@@ -57,6 +54,12 @@ public class WarehouseController {
     public AddressDto getAddress() {
         log.info("Getting address");
         return warehouseService.getAddress();
+    }
+
+    @PostMapping("/shipped")
+    public void shippedToDelivery(ShippedToDeliveryRequest request) {
+        log.info("Shipping to {}", request);
+        warehouseService.shippedToDelivery(request);
     }
 
 }

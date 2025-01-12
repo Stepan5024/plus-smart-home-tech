@@ -1,5 +1,3 @@
-drop table if exists warehouse_product, bookings, booking_products;
-
 create table if not exists warehouse_product
 (
     product_id uuid primary key,
